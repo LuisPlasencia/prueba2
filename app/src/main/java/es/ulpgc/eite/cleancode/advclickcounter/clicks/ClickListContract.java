@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 
 import es.ulpgc.eite.cleancode.advclickcounter.app.ClickToCounterState;
 import es.ulpgc.eite.cleancode.advclickcounter.app.CounterToClickState;
+import es.ulpgc.eite.cleancode.advclickcounter.data.ClickData;
 
 public interface ClickListContract {
 
@@ -33,16 +34,18 @@ public interface ClickListContract {
     void onDestroy();
 
     void onClickButtonPressed();
+
+      void onDataClicked(ClickData data);
   }
 
   interface Model {
-    String getStoredData();
+    int getStoredData();
 
-    void onDataFromNextScreen(String data);
+    void onDataFromNextScreen(int data);
 
-    void onRestartScreen(String data);
+    void onRestartScreen(int data);
 
-    void onDataFromPreviousScreen(String data);
+    void onDataFromPreviousScreen(int data);
   }
 
   interface Router {

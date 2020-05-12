@@ -1,33 +1,40 @@
 package es.ulpgc.eite.cleancode.advclickcounter.counters;
 
+import java.util.List;
+
+import es.ulpgc.eite.cleancode.advclickcounter.data.ClickData;
+
 public class CounterListModel implements CounterListContract.Model {
 
   public static String TAG = CounterListModel.class.getSimpleName();
 
-  private String data;
+  public int clicks;
 
-  public CounterListModel(String data) {
-    this.data = data;
+  public CounterListModel(int data) {
+    this.clicks = data;
   }
 
   @Override
-  public String getStoredData() {
+  public int getStoredData() {
     // Log.e(TAG, "getStoredData()");
-    return data;
+    return clicks;
   }
 
   @Override
-  public void onRestartScreen(String data) {
+  public void onRestartScreen(int clicks) {
     // Log.e(TAG, "onRestartScreen()");
+    this.clicks = clicks;
   }
 
   @Override
-  public void onDataFromNextScreen(String data) {
+  public void onDataFromNextScreen(int clicks) {
     // Log.e(TAG, "onDataFromNextScreen()");
+    this.clicks = clicks;
   }
 
   @Override
-  public void onDataFromPreviousScreen(String data) {
+  public void onDataFromPreviousScreen(int clicks) {
     // Log.e(TAG, "onDataFromPreviousScreen()");
+    this.clicks = clicks;
   }
 }

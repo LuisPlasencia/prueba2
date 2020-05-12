@@ -1,8 +1,13 @@
 package es.ulpgc.eite.cleancode.advclickcounter.clicks;
 
-import java.lang.ref.WeakReference;
+import android.util.Log;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+
+import es.ulpgc.eite.cleancode.advclickcounter.app.ClickToCounterState;
 import es.ulpgc.eite.cleancode.advclickcounter.app.CounterToClickState;
+import es.ulpgc.eite.cleancode.advclickcounter.data.ClickData;
 
 public class ClickListPresenter implements ClickListContract.Presenter {
 
@@ -31,7 +36,7 @@ public class ClickListPresenter implements ClickListContract.Presenter {
     if (savedState != null) {
 
       // update the model if is necessary
-      model.onDataFromPreviousScreen(savedState.data);
+      model.onDataFromPreviousScreen(savedState.clicks);
     }
   }
 
@@ -40,7 +45,7 @@ public class ClickListPresenter implements ClickListContract.Presenter {
     // Log.e(TAG, "onRestart()");
 
     // update the model if is necessary
-    model.onRestartScreen(state.data);
+    model.onRestartScreen(state.clicks);
   }
 
   @Override
@@ -58,7 +63,7 @@ public class ClickListPresenter implements ClickListContract.Presenter {
     */
 
     // call the model and update the state
-    state.data = model.getStoredData();
+    state.clicks = model.getStoredData();
 
     // update the view
     view.get().onDataUpdated(state);
@@ -68,6 +73,11 @@ public class ClickListPresenter implements ClickListContract.Presenter {
   @Override
   public void onBackPressed() {
     // Log.e(TAG, "onBackPressed()");
+    state.datasource = new ArrayList<>();
+    ClickToCounterState clickToCounterState = new ClickToCounterState();
+    clickToCounterState.clicks = state.clicks;
+    router.passStateToPreviousScreen(clickToCounterState);
+
   }
 
   @Override
@@ -82,6 +92,16 @@ public class ClickListPresenter implements ClickListContract.Presenter {
 
   @Override
   public void onClickButtonPressed() {
+    ClickData clickData = new ClickData();
+    state.datasource.add(clickData);
+    view.get().onDataUpdated(state);
+  }
+
+  @Override
+  public void onDataClicked(ClickData data) {
+    state.clicks ++;
+    Log.d("Hola", String.valueOf(state.clicks));
+    view.get().onDataUpdated(state);
 
   }
 

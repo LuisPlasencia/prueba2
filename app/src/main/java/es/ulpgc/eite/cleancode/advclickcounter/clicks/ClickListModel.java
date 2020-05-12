@@ -4,30 +4,33 @@ public class ClickListModel implements ClickListContract.Model {
 
   public static String TAG = ClickListModel.class.getSimpleName();
 
-  private String data;
+  private int clicks;
 
-  public ClickListModel(String data) {
-    this.data = data;
+  public ClickListModel(int data) {
+    this.clicks = data;
   }
 
   @Override
-  public String getStoredData() {
+  public int getStoredData() {
     // Log.e(TAG, "getStoredData()");
-    return data;
+    return clicks;
   }
 
   @Override
-  public void onRestartScreen(String data) {
+  public void onRestartScreen(int data) {
     // Log.e(TAG, "onRestartScreen()");
+    this.clicks = data;
   }
 
   @Override
-  public void onDataFromNextScreen(String data) {
+  public void onDataFromNextScreen(int data) {
     // Log.e(TAG, "onDataFromNextScreen()");
+    this.clicks = data;
   }
 
   @Override
-  public void onDataFromPreviousScreen(String data) {
+  public void onDataFromPreviousScreen(int data) {
     // Log.e(TAG, "onDataFromPreviousScreen()");
+    this.clicks = data;
   }
 }

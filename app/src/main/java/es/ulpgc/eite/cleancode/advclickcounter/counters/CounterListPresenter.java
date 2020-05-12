@@ -1,8 +1,13 @@
 package es.ulpgc.eite.cleancode.advclickcounter.counters;
 
+import android.util.Log;
+
 import java.lang.ref.WeakReference;
 
 import es.ulpgc.eite.cleancode.advclickcounter.app.ClickToCounterState;
+import es.ulpgc.eite.cleancode.advclickcounter.app.CounterToClickState;
+import es.ulpgc.eite.cleancode.advclickcounter.data.ClickData;
+import es.ulpgc.eite.cleancode.advclickcounter.data.CounterData;
 
 public class CounterListPresenter implements CounterListContract.Presenter {
 
@@ -42,7 +47,7 @@ public class CounterListPresenter implements CounterListContract.Presenter {
     // Log.e(TAG, "onRestart()");
 
     // update the model if is necessary
-    model.onRestartScreen(state.data);
+    model.onRestartScreen(state.clicks);
   }
 
   @Override
@@ -51,14 +56,23 @@ public class CounterListPresenter implements CounterListContract.Presenter {
 
     // use passed state if is necessary
     ClickToCounterState savedState = router.getStateFromNextScreen();
-    if (savedState != null) {
 
+    if (savedState != null) {
+      Log.d("HOLA", String.valueOf(savedState.clicks));
       // update the model if is necessary
-      model.onDataFromNextScreen(savedState.data);
+      model.onDataFromNextScreen(savedState.clicks);
     }
 
     // call the model and update the state
-    state.data = model.getStoredData();
+    state.clicks = model.getStoredData();
+
+    int celdaActual = state.celdaActual;
+    if(state.datasource.size() > 0){
+      Log.d("hola", String.valueOf(state.clicks));
+      state.datasource.get(celdaActual).value = state.clicks;
+    }
+
+
 
     // update the view
     view.get().onDataUpdated(state);
@@ -82,7 +96,27 @@ public class CounterListPresenter implements CounterListContract.Presenter {
 
   @Override
   public void onCounterButtonPressed() {
+    CounterData counterData = new CounterData();
+    ClickData clickData = new ClickData();
+    counterData.clicks.add(clickData);
+    state.datasource.add(counterData);
+    view.get().onDataUpdated(state);
+  }
 
+  @Override
+  public void onDataClicked(CounterData counter) {
+    for(int i = 0; i< state.datasource.size(); i++){
+      if(counter.value == state.datasource.get(i).value){
+        state.celdaActual = i;
+      }
+    }
+
+    state.clicks = counter.value;
+    CounterToClickState estado = new CounterToClickState();
+    estado.clicks = counter.value;
+    router.passStateToNextScreen(estado);
+
+    view.get().navigateToNextScreen();
   }
 
   @Override

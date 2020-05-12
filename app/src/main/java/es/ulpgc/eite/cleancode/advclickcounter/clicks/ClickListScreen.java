@@ -14,14 +14,14 @@ public class ClickListScreen {
     WeakReference<FragmentActivity> context =
         new WeakReference<>((FragmentActivity) view);
 
-    String data = context.get().getString(R.string.app_name);
+    int clicks = 0;
 
     AppMediator mediator = AppMediator.getInstance();
     ClickListState state = mediator.getClickListState();
 
     ClickListContract.Router router = new ClickListRouter(mediator);
     ClickListContract.Presenter presenter = new ClickListPresenter(state);
-    ClickListContract.Model model = new ClickListModel(data);
+    ClickListContract.Model model = new ClickListModel(clicks);
     presenter.injectModel(model);
     presenter.injectRouter(router);
     presenter.injectView(new WeakReference<>(view));

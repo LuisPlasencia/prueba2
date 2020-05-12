@@ -14,14 +14,14 @@ public class CounterListScreen {
     WeakReference<FragmentActivity> context =
         new WeakReference<>((FragmentActivity) view);
 
-    String data = context.get().getString(R.string.app_name);
+    int clicks = 0;
 
     AppMediator mediator = AppMediator.getInstance();
     CounterListState state = mediator.getCounterListState();
 
     CounterListContract.Router router = new CounterListRouter(mediator);
     CounterListContract.Presenter presenter = new CounterListPresenter(state);
-    CounterListContract.Model model = new CounterListModel(data);
+    CounterListContract.Model model = new CounterListModel(clicks);
     presenter.injectModel(model);
     presenter.injectRouter(router);
     presenter.injectView(new WeakReference<>(view));

@@ -73,6 +73,8 @@ public class ClickListActivity
           @Override
           public void onClick(View view) {
             ClickData data = (ClickData) view.getTag();
+            data.value++;
+            presenter.onDataClicked(data);
 
           }
         })

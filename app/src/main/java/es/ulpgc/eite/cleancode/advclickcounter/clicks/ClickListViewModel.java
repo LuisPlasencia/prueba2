@@ -8,6 +8,6 @@ import es.ulpgc.eite.cleancode.advclickcounter.data.ClickData;
 public class ClickListViewModel {
 
   // put the view state here
-  public String data;
+  public int clicks;
   public List<ClickData> datasource = new ArrayList<>();
 }
